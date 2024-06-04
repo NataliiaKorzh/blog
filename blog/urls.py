@@ -26,8 +26,8 @@ from drf_spectacular.views import (
 )
 
 list_of_root = [
-    path("users", include("user.urls")),
-    path("articles", include("article.urls")),
+    path("users/", include("user.urls")),
+    path("articles/", include("article.urls")),
 ]
 
 
