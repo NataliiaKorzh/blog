@@ -21,3 +21,8 @@ class ArticleDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Article.objects.filter(author=self.request.user)
+
+
+class LatestArticleListView(generics.ListAPIView):
+    queryset = Article.objects.order_by("-publication_date")[:1]
+    serializer_class = ArticleSerializer
