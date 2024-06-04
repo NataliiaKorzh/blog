@@ -10,7 +10,7 @@ load_dotenv()
 bot = Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 dp = Dispatcher(bot=bot)
 
-API_TOKEN = "7430992877:AAH2lHn8FOhddH1MTIB2Iw7EohJA6HtR8AE"
+API_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 API_ENDPOINT = "http://localhost:8001/latest-articles/"
 
 subscribers = []
