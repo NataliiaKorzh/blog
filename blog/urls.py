@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -25,8 +26,8 @@ from drf_spectacular.views import (
 )
 
 list_of_root = [
-    path("users/", include("user.urls")),
-    path("articles/", include("article.urls")),
+    path("users", include("user.urls")),
+    path("articles", include("article.urls")),
 ]
 
 
