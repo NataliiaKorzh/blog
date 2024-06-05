@@ -11,7 +11,7 @@ bot = Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 dp = Dispatcher(bot=bot)
 
 API_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-API_ENDPOINT = "http://localhost:8001/latest-articles/"
+API_ENDPOINT = "http://blog:8000/api/articles/latest-articles/"
 
 subscribers = []
 
@@ -41,7 +41,7 @@ async def get_latest_article(message: types.Message):
                 title = article["title"]
                 content = article["content"]
                 await message.reply(
-                    f"Latest Article:\n\nTitle: {title}\nDescription: {content}"
+                    f"Latest Article:\n\nTitle: {title}\nContent: {content}"
                 )
             else:
                 await message.reply("Failed to retrieve the latest article.")
@@ -78,4 +78,4 @@ async def notify_subscribers(article):
 
 
 if __name__ == "__main__":
-    executor.start_polling(dp)
+    executor.start_polling(dp, skip_updates=True)

@@ -17,3 +17,5 @@ RUN adduser \
          django-user
 
 USER django-user
+
+CMD ["python", "article/telegram_bot.py"]

@@ -14,6 +14,16 @@ services:
       python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
+  telegram_bot:
+    build: .
+    container_name: telegram_bot
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    depends_on:
+      - blog
 
 
   db:
