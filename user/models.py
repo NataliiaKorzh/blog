@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 
 
 class UserManager(BaseUserManager):
+
     """Define a model manager for User model with no username field."""
 
     use_in_migrations = True
@@ -38,6 +39,15 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    """
+    Custom user model extending Django's AbstractUser.
+
+    Attributes:
+        email (str): The email address of the user. It must be unique.
+        name (str): The name of the user.
+        avatar (str): The path to the user's avatar image.
+    """
+
     username = None
     email = models.EmailField(_("email address"), unique=True)
     name = models.CharField(_("name"), max_length=63)

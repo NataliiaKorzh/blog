@@ -9,6 +9,13 @@ def password_reset_token_created(
     sender, instance, reset_password_token, *args, **kwargs
 ):
 
+    """
+    Signal handler for password reset token creation.
+
+    This function is called when a password reset token is created. It sends an email to the user
+    containing a link to reset their password.
+    """
+
     user = reset_password_token.user
     reset_password_url = "{}?token={}".format(
         instance.request.build_absolute_uri(

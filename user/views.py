@@ -10,12 +10,34 @@ User = get_user_model()
 
 
 class RegisterView(generics.CreateAPIView):
+
+    """
+    API view for user registration.
+
+    This view allows users to register by providing necessary information such as email and password.
+
+    Attributes:
+        queryset (QuerySet): The queryset representing all users.
+        permission_classes (list): The list of permission classes allowing any user to register.
+        serializer_class (Serializer): The serializer class for user registration.
+    """
+
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = RegisterSerializer
 
 
 class LoginView(generics.GenericAPIView):
+
+    """
+    API view for user login.
+
+    This view authenticates users and provides JWT tokens for authentication.
+
+    Attributes:
+        serializer_class (Serializer): The serializer class for user login.
+    """
+
     serializer_class = TokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
@@ -32,6 +54,18 @@ class LoginView(generics.GenericAPIView):
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
+
+    """
+    API view for user profile.
+
+    This view allows authenticated users to view and update their profile information.
+
+    Attributes:
+        queryset (QuerySet): The queryset representing all users.
+        permission_classes (list): The list of permission classes allowing only authenticated users to access the view.
+        serializer_class (Serializer): The serializer class for user profile.
+    """
+
     queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProfileSerializer

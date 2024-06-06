@@ -18,11 +18,13 @@ subscribers = []
 
 @dp.message_handler(commands=["start"])
 async def cmd_start(message: types.Message):
+    """Command handler for '/start'. Greets an user."""
     await message.answer("Welcome to the Article Blog Bot!")
 
 
 @dp.message_handler(commands=["help"])
 async def cmd_help(message: types.Message):
+    """Command handler for '/help'. Sends list of available commands."""
     await message.answer(
         "/start - Welcome message\n/help - List of available commands"
         "\n/latest - Get the latest article"
@@ -33,6 +35,7 @@ async def cmd_help(message: types.Message):
 
 @dp.message_handler(commands=["latest"])
 async def get_latest_article(message: types.Message):
+    """Command handler for '/latest'. Sends a data about the latest article."""
     async with aiohttp.ClientSession() as session:
         async with session.get(API_ENDPOINT) as response:
             if response.status == 200:
@@ -49,6 +52,7 @@ async def get_latest_article(message: types.Message):
 
 @dp.message_handler(commands=["subscribe"])
 async def subscribe(message: types.Message):
+    """Command handler for '/subscribe'."""
     if message.from_user.id not in subscribers:
         subscribers.append(message.from_user.id)
         await message.reply("You have been subscribed to blog updates.")
@@ -58,6 +62,7 @@ async def subscribe(message: types.Message):
 
 @dp.message_handler(commands=["unsubscribe"])
 async def unsubscribe(message: types.Message):
+    """Command handler for '/unsubscribe'."""
     if message.from_user.id in subscribers:
         subscribers.remove(message.from_user.id)
         await message.reply("You have been unsubscribed from blog updates.")
@@ -66,6 +71,7 @@ async def unsubscribe(message: types.Message):
 
 
 async def notify_subscribers(article):
+    """Notify subscribers about a new article."""
     for user_id in subscribers:
         try:
             await bot.send_message(
