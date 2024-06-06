@@ -12,6 +12,14 @@ load_dotenv()
 
 class PostgresDemoPipeline:
 
+    """
+    Item pipeline for storing scraped articles in PostgreSQL database.
+
+    This pipeline connects to a PostgreSQL database using environment variables
+    and stores scraped articles in a table named "scraped_articles".
+
+    """
+
     def __init__(self):
         hostname = os.environ["POSTGRES_HOST"]
         username = os.environ["POSTGRES_USER"]
