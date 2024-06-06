@@ -108,3 +108,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 ROTATING_PROXY_LIST_PATH = "proxies.txt"
+
+ITEM_PIPELINES = {
+   "postgres_demo.pipelines.PostgresDemoPipeline": 300,
+}
