@@ -5,8 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-from .views import RegisterView, ProfileView
-
+from .views import RegisterView, ProfileView, LogoutView
 
 app_name = "user"
 
@@ -20,4 +19,5 @@ urlpatterns = [
         r"password_reset/",
         include("django_rest_passwordreset.urls", namespace="password_reset"),
     ),
+    path("logout/", LogoutView.as_view(), name="logout"),
 ]
