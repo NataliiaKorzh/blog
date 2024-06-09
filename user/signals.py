@@ -1,7 +1,7 @@
 from django.core.mail import EmailMultiAlternatives
 from django.dispatch import receiver
 from django.urls import reverse
-from django_rest_passwordreset.signals import reset_password_token_created
+from django_rest_passwordreset.signals import reset_password_token_created, post_password_reset
 
 
 @receiver(reset_password_token_created)
@@ -19,7 +19,7 @@ def password_reset_token_created(
     user = reset_password_token.user
     reset_password_url = "{}?token={}".format(
         instance.request.build_absolute_uri(
-            reverse("password_reset:reset-password-confirm")
+            reverse("user:password_reset_confirm")
         ),
         reset_password_token.key,
     )
@@ -59,3 +59,12 @@ def password_reset_token_created(
     )
     msg.attach_alternative(email_html_message, "text/html")
     msg.send()
+
+
+@receiver(post_password_reset)
+def delete_password_reset_token(sender, instance, *args, **kwargs):
+    """
+    Signal handler to delete password reset token after successful password reset.
+    """
+    reset_password_token = instance
+    reset_password_token.delete()
