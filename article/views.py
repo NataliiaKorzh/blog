@@ -24,7 +24,7 @@ class ArticleListView(generics.ListCreateAPIView):
         Returns:
             QuerySet: The queryset of articles authored by the current user.
         """
-        return Article.objects.filter(author=self.request.user)
+        return self.request.user.articles.all()
 
     def perform_create(self, serializer):
         """
@@ -69,5 +69,5 @@ class LatestArticleListView(generics.ListAPIView):
         queryset (QuerySet): The queryset for retrieving the latest article.
         serializer_class (Serializer): The serializer class for article objects.
     """
-    queryset = Article.objects.order_by("-publication_date")[:1]
+    queryset = Article.objects.order_by("-publication_date").first()
     serializer_class = ArticleSerializer

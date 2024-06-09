@@ -3,6 +3,7 @@ import os
 
 import aiohttp
 from aiogram import Bot, Dispatcher, executor, types
+from django.contrib.auth import get_user_model
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,9 +12,12 @@ bot = Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 dp = Dispatcher(bot=bot)
 
 API_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-API_ENDPOINT = "http://blog:8000/api/articles/latest-articles/"
+API_ENDPOINT = "http://blog:8000/api/articles/latest-article/"
 
-subscribers = []
+
+def get_subscribers():
+    user_model = get_user_model()
+    return [user.id for user in user_model.objects.all()]
 
 
 @dp.message_handler(commands=["start"])
@@ -53,34 +57,27 @@ async def get_latest_article(message: types.Message):
 @dp.message_handler(commands=["subscribe"])
 async def subscribe(message: types.Message):
     """Command handler for '/subscribe'."""
-    if message.from_user.id not in subscribers:
-        subscribers.append(message.from_user.id)
+    user_id = message.from_user.id
+    user = get_user_model().objects.filter(id=user_id).first()
+    if user and not user.is_subscribed:
+        user.is_subscribed = True
+        user.save()
         await message.reply("You have been subscribed to blog updates.")
     else:
-        await message.reply("You are already subscribed.")
+        await message.reply("You are already subscribed or not a registered user.")
 
 
 @dp.message_handler(commands=["unsubscribe"])
 async def unsubscribe(message: types.Message):
     """Command handler for '/unsubscribe'."""
-    if message.from_user.id in subscribers:
-        subscribers.remove(message.from_user.id)
+    user_id = message.from_user.id
+    user = get_user_model().objects.filter(id=user_id).first()
+    if user and user.is_subscribed:
+        user.is_subscribed = False
+        user.save()
         await message.reply("You have been unsubscribed from blog updates.")
     else:
-        await message.reply("You are not subscribed.")
-
-
-async def notify_subscribers(article):
-    """Notify subscribers about a new article."""
-    for user_id in subscribers:
-        try:
-            await bot.send_message(
-                user_id,
-                f"New Article Alert!\n\nTitle: {article['title']}"
-                f"\nContent: {article['content']}",
-            )
-        except Exception as e:
-            logging.error(f"Failed to send message to {user_id}: {e}")
+        await message.reply("You are not subscribed or not a registered user.")
 
 
 if __name__ == "__main__":

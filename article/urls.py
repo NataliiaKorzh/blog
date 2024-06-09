@@ -5,7 +5,7 @@ from article.views import ArticleListView, ArticleDetailView, LatestArticleListV
 urlpatterns = [
     path("", ArticleListView.as_view(), name="article_list"),
     path("<int:pk>/", ArticleDetailView.as_view(), name="article_detail"),
-    path("latest-articles/", LatestArticleListView.as_view(), name="latest_articles"),
+    path("latest-articles/", LatestArticleListView.as_view(), name="latest_article"),
 ]
 
 app_name = "article"

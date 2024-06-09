@@ -52,6 +52,7 @@ class User(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     name = models.CharField(_("name"), max_length=63)
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    is_subscribed = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
