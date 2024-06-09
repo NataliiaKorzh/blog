@@ -96,18 +96,9 @@ FEED_EXPORT_ENCODING = "utf-8"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
               "Chrome/58.0.3029.110 Safari/537.36")
 
-# DOWNLOAD_TIMEOUT = 30
-
 RETRY_ENABLED = True
 
 RETRY_HTTP_CODES = [500, 502, 503, 504, 522, 524, 408, 429]
-
-DOWNLOADER_MIDDLEWARES = {
-    "rotating_proxies.middlewares.RotatingProxyMiddleware": 300,
-    "rotating_proxies.middlewares.BanDetectionMiddleware": 301,
-}
-
-ROTATING_PROXY_LIST_PATH = "proxies.txt"
 
 ITEM_PIPELINES = {
    "postgres_demo.pipelines.PostgresDemoPipeline": 300,
